@@ -7,20 +7,30 @@
 <title>BALADIYA DESK</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial;background:#f1f4f8;color:#172b4d}
-header{background:#102b46;color:white;padding:25px 35px}
-header h1{margin:0;font-size:27px}
-header p{color:#c5d5e5}
-main{max-width:1100px;margin:35px auto;padding:15px}
-.notice{background:#fff3cd;padding:15px;border-radius:10px;color:#765500}
-h2{margin-top:30px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
-.card{background:white;padding:25px;border-radius:14px;box-shadow:0 4px 15px #00000010}
-.card h3{color:#1764a0}
-.card p{color:#64748b;line-height:1.6}
-button{background:#1764a0;color:white;border:0;padding:11px 17px;border-radius:8px;cursor:pointer}
-button:hover{background:#0c4777}
-footer{text-align:center;padding:25px;color:#64748b}
+body{margin:0;font-family:Arial,sans-serif;background:#f2f5f9;color:#172b45}
+header{background:#102b46;color:white;padding:24px}
+header h1{margin:0}
+header p{color:#cbd8e5}
+.layout{display:flex;min-height:calc(100vh - 100px)}
+aside{width:235px;background:#173957;padding:20px 12px}
+aside button{display:block;width:100%;text-align:left;margin:7px 0;background:transparent;color:white}
+aside button:hover,.active{background:#28618d}
+main{flex:1;padding:28px;max-width:1200px}
+button{border:0;border-radius:8px;padding:12px 16px;background:#1764a0;color:white;cursor:pointer}
+button:hover{background:#104a78}
+.card{background:white;border-radius:13px;padding:22px;margin-bottom:18px;box-shadow:0 3px 15px #152b4510}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+input,textarea,select{width:100%;padding:12px;border:1px solid #ccd5df;border-radius:8px;margin:7px 0 14px;font:inherit}
+textarea{min-height:90px}
+label{font-weight:bold}
+.notice{background:#fff2cc;color:#765500;padding:14px;border-radius:9px;margin-bottom:20px}
+.hidden{display:none}
+.item{border:1px solid #e0e6ed;padding:15px;border-radius:9px;margin-top:12px}
+.item button{margin:5px 4px 0 0}
+h2{color:#173957}
+small{color:#64748b}
+@media(max-width:700px){.layout{display:block}aside{width:100%}aside button{display:inline-block;width:auto}main{padding:15px}}
+@media print{aside,header,.no-print,button{display:none!important}.layout{display:block}main{padding:0}.card{box-shadow:none}}
 </style>
 </head>
 <body>
@@ -30,41 +40,195 @@ footer{text-align:center;padding:25px;color:#64748b}
 <p>Plateforme de gestion et d'organisation administrative</p>
 </header>
 
+<div class="layout">
+<aside class="no-print">
+<button onclick="showPage('home')">🏠 Tableau de bord</button>
+<button onclick="showPage('events')">📅 Événements</button>
+<button onclick="showPage('civil')">📋 État civil</button>
+<button onclick="showPage('docs')">📄 Documents</button>
+</aside>
+
 <main>
 <div class="notice">
 <strong>Version de démonstration :</strong>
 Utilisez uniquement des données fictives. Documents non officiels.
+Ne saisissez aucune donnée personnelle réelle.
 </div>
 
+<section id="home">
 <h2>Tableau de bord</h2>
-
 <div class="grid">
-
-<div class="card">
-<h3>📋 État civil</h3>
-<p>Brouillons de naissance, mariage et décès.</p>
-<button onclick="alert('Module État civil bientôt disponible')">Ouvrir</button>
-</div>
-
 <div class="card">
 <h3>📅 Événements</h3>
-<p>Organisation des réunions et activités communales.</p>
-<button onclick="alert('Module Événements bientôt disponible')">Ouvrir</button>
+<p>Organiser les réunions et activités.</p>
+<button onclick="showPage('events')">Ouvrir</button>
 </div>
-
+<div class="card">
+<h3>📋 État civil</h3>
+<p>Consulter les modèles de brouillons.</p>
+<button onclick="showPage('civil')">Ouvrir</button>
+</div>
 <div class="card">
 <h3>📄 Documents administratifs</h3>
-<p>Préparation des demandes, lettres et modèles.</p>
-<button onclick="alert('Module Documents bientôt disponible')">Ouvrir</button>
+<p>Préparer des modèles de documents.</p>
+<button onclick="showPage('docs')">Ouvrir</button>
 </div>
+</div>
+</section>
 
+<section id="events" class="hidden">
+<h2>📅 Registre des événements</h2>
+<div class="card">
+<h3>Ajouter un événement</h3>
+<label>Titre</label>
+<input id="eventTitle" placeholder="Ex : Réunion communale">
+<label>Date</label>
+<input id="eventDate" type="date">
+<label>Lieu</label>
+<input id="eventPlace" placeholder="Lieu de l'événement">
+<label>Description</label>
+<textarea id="eventDescription" placeholder="Description..."></textarea>
+<button onclick="addEvent()">+ Ajouter l'événement</button>
 </div>
-</main>
+<div class="card">
+<h3>Liste des événements</h3>
+<div id="eventList">Aucun événement pour le moment.</div>
+<button class="no-print" onclick="window.print()">🖨️ Imprimer le registre</button>
+</div>
+</section>
+
+<section id="civil" class="hidden">
+<h2>📋 État civil — Modèles</h2>
+<div class="card">
+<h3>Modèles de brouillons</h3>
+<p>Choisissez un type de modèle :</p>
+<select id="civilType">
+<option>Naissance</option>
+<option>Mariage</option>
+<option>Décès</option>
+</select>
+<p><small>Cette section sert uniquement à préparer des exemples fictifs. Elle ne crée pas d'actes officiels.</small></p>
+<button onclick="civilPreview()">Afficher le modèle</button>
+<div id="civilResult"></div>
+</div>
+</section>
+
+<section id="docs" class="hidden">
+<h2>📄 Documents administratifs</h2>
+<div class="card">
+<h3>Créer une ébauche de document</h3>
+<label>Type de document</label>
+<select id="docType">
+<option>Demande administrative</option>
+<option>Lettre administrative</option>
+<option>Compte rendu</option>
+<option>Convocation</option>
+</select>
+<label>Objet</label>
+<input id="docSubject" placeholder="Objet du document">
+<label>Contenu</label>
+<textarea id="docContent" placeholder="Écrivez votre texte ici..."></textarea>
+<button onclick="makeDocument()">Créer l'ébauche</button>
+</div>
+<div class="card">
+<h3>Aperçu du document</h3>
+<div id="docPreview">Votre document apparaîtra ici.</div>
+<button class="no-print" onclick="window.print()">🖨️ Imprimer</button>
+</div>
+</section>
 
 <footer>
-BALADIYA DESK © 2026 — Version de démonstration
+<small>BALADIYA DESK © 2026 — Version de démonstration</small>
 </footer>
+</main>
+</div>
 
+<script>
+let events=JSON.parse(localStorage.getItem("baladiyaEvents")||"[]");
+
+function showPage(page){
+document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
+document.getElementById(page).classList.remove("hidden");
+}
+
+function saveEvents(){
+localStorage.setItem("baladiyaEvents",JSON.stringify(events));
+renderEvents();
+}
+
+function addEvent(){
+let title=document.getElementById("eventTitle").value.trim();
+let date=document.getElementById("eventDate").value;
+let place=document.getElementById("eventPlace").value.trim();
+let description=document.getElementById("eventDescription").value.trim();
+
+if(!title||!date){
+alert("Veuillez saisir le titre et la date.");
+return;
+}
+
+events.push({title,date,place,description});
+saveEvents();
+
+document.getElementById("eventTitle").value="";
+document.getElementById("eventDate").value="";
+document.getElementById("eventPlace").value="";
+document.getElementById("eventDescription").value="";
+alert("Événement ajouté !");
+}
+
+function renderEvents(){
+let list=document.getElementById("eventList");
+if(events.length===0){
+list.textContent="Aucun événement pour le moment.";
+return;
+}
+list.innerHTML="";
+events.forEach((e,i)=>{
+let item=document.createElement("div");
+item.className="item";
+let title=document.createElement("h3");
+title.textContent=e.title;
+let details=document.createElement("p");
+details.textContent="Date : "+e.date+" | Lieu : "+e.place;
+let desc=document.createElement("p");
+desc.textContent=e.description;
+let del=document.createElement("button");
+del.textContent="Supprimer";
+del.onclick=()=>{if(confirm("Supprimer cet événement ?")){events.splice(i,1);saveEvents();}};
+item.append(title,details,desc,del);
+list.appendChild(item);
+});
+}
+
+function civilPreview(){
+let type=document.getElementById("civilType").value;
+let result=document.getElementById("civilResult");
+result.textContent="Modèle fictif de brouillon : "+type+". Ce document n'est pas un acte officiel.";
+result.className="item";
+}
+
+function makeDocument(){
+let type=document.getElementById("docType").value;
+let subject=document.getElementById("docSubject").value;
+let content=document.getElementById("docContent").value;
+let preview=document.getElementById("docPreview");
+preview.replaceChildren();
+let heading=document.createElement("h3");
+heading.textContent=type;
+let subjectLine=document.createElement("p");
+subjectLine.textContent="Objet : "+subject;
+let body=document.createElement("p");
+body.style.whiteSpace="pre-wrap";
+body.textContent=content;
+let warning=document.createElement("small");
+warning.textContent="Brouillon de démonstration — document non officiel.";
+preview.append(heading,subjectLine,body,warning);
+}
+
+renderEvents();
+</script>
 </body>
 </html>
+
 
