@@ -1,1 +1,70 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BALADIYA DESK</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#f1f4f8;color:#172b4d}
+header{background:#102b46;color:white;padding:25px 35px}
+header h1{margin:0;font-size:27px}
+header p{color:#c5d5e5}
+main{max-width:1100px;margin:35px auto;padding:15px}
+.notice{background:#fff3cd;padding:15px;border-radius:10px;color:#765500}
+h2{margin-top:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.card{background:white;padding:25px;border-radius:14px;box-shadow:0 4px 15px #00000010}
+.card h3{color:#1764a0}
+.card p{color:#64748b;line-height:1.6}
+button{background:#1764a0;color:white;border:0;padding:11px 17px;border-radius:8px;cursor:pointer}
+button:hover{background:#0c4777}
+footer{text-align:center;padding:25px;color:#64748b}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🏛️ BALADIYA DESK</h1>
+<p>Plateforme de gestion et d'organisation administrative</p>
+</header>
+
+<main>
+<div class="notice">
+<strong>Version de démonstration :</strong>
+Utilisez uniquement des données fictives. Documents non officiels.
+</div>
+
+<h2>Tableau de bord</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>📋 État civil</h3>
+<p>Brouillons de naissance, mariage et décès.</p>
+<button onclick="alert('Module État civil bientôt disponible')">Ouvrir</button>
+</div>
+
+<div class="card">
+<h3>📅 Événements</h3>
+<p>Organisation des réunions et activités communales.</p>
+<button onclick="alert('Module Événements bientôt disponible')">Ouvrir</button>
+</div>
+
+<div class="card">
+<h3>📄 Documents administratifs</h3>
+<p>Préparation des demandes, lettres et modèles.</p>
+<button onclick="alert('Module Documents bientôt disponible')">Ouvrir</button>
+</div>
+
+</div>
+</main>
+
+<footer>
+BALADIYA DESK © 2026 — Version de démonstration
+</footer>
+
+</body>
+</html>
+
